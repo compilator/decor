@@ -1,0 +1,98 @@
+<section class="auth auth--login">
+  <div class="container">
+    <div class="auth__layout">
+      <div class="auth__content">
+        <h1 class="auth__title">Войти в личный кабинет</h1>
+
+        <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <div class="auth-form__fields">
+            <label class="visually-hidden" for="login-email">E-mail</label>
+            <input
+              id="login-email"
+              class="auth-form__input input"
+              type="email"
+              formControlName="email"
+              placeholder="E-mail"
+              autocomplete="email"
+              [attr.aria-invalid]="email?.invalid && email?.touched"
+              aria-describedby="login-email-error"
+            >
+            <p
+              class="auth-form__error"
+              id="login-email-error"
+              *ngIf="email?.invalid && email?.touched"
+            >
+              <ng-container *ngIf="email?.errors?.['required']">Введите электронную почту</ng-container>
+              <ng-container *ngIf="email?.errors?.['email']">Некорректный формат E-mail</ng-container>
+            </p>
+
+            <label class="visually-hidden" for="login-password">Пароль</label>
+            <input
+              id="login-password"
+              class="auth-form__input input"
+              type="password"
+              formControlName="password"
+              placeholder="Пароль"
+              autocomplete="current-password"
+              [attr.aria-invalid]="password?.invalid && password?.touched"
+              aria-describedby="login-password-error"
+            >
+            <p
+              class="auth-form__error"
+              id="login-password-error"
+              *ngIf="password?.invalid && password?.touched"
+            >
+              Введите пароль
+            </p>
+          </div>
+
+          <label class="auth-form__remember" for="login-remember">
+            <input
+              id="login-remember"
+              class="auth-form__checkbox"
+              type="checkbox"
+              formControlName="rememberMe"
+            >
+            <span class="auth-form__remember-text">Запомнить меня</span>
+          </label>
+
+          <p class="auth-form__error auth-form__error--form" *ngIf="errorMessage" role="alert">
+            {{ errorMessage }}
+          </p>
+
+          <app-loader [show]="isLoading"></app-loader>
+
+          <button
+            class="button button--primary button--full auth-form__submit"
+            type="submit"
+            [disabled]="isLoading"
+          >
+            Войти
+          </button>
+        </form>
+
+        <p class="auth-form__footer">
+          Нет аккаунта?
+          <a class="auth-form__register-link" routerLink="/signup">Зарегистрируйтесь</a>
+        </p>
+      </div>
+
+      <div class="auth__media" aria-hidden="true">
+        <img
+          class="auth__media-image auth__media-image--accent"
+          src="assets/images/hero-plant-accent.png"
+          width="470"
+          height="495"
+          alt=""
+        >
+        <img
+          class="auth__media-image auth__media-image--fade"
+          src="assets/images/hero-plant-fade.png"
+          width="261"
+          height="495"
+          alt=""
+        >
+      </div>
+    </div>
+  </div>
+</section>

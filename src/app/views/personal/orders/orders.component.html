@@ -1,0 +1,56 @@
+<section class="personal personal--orders">
+  <div class="container">
+    <h1 class="personal__title">Личный кабинет</h1>
+
+    <nav class="personal-tabs" aria-label="Разделы личного кабинета">
+      <div class="personal-tabs__list">
+        <a class="personal-tabs__link" routerLink="/personal">Личные данные</a>
+        <a
+          class="personal-tabs__link personal-tabs__link--orders personal-tabs__link--active"
+          routerLink="/personal/orders"
+          aria-current="page"
+        >
+          Ваши заказы
+        </a>
+      </div>
+    </nav>
+
+    <div class="orders">
+      <h2 class="orders__title form-group__title">Ваши заказы</h2>
+      <p class="orders__lead">Здесь отображается история ваших заказов.</p>
+
+      <app-loader [show]="loading"></app-loader>
+
+      <p class="orders__error" *ngIf="!loading && errorMessage" role="alert">{{ errorMessage }}</p>
+
+      <div class="orders__empty" *ngIf="!loading && !errorMessage && orders.length === 0">
+        <p class="orders__empty-message">У вас пока нет заказов.</p>
+        <a class="button button--primary" routerLink="/catalog">В каталог</a>
+      </div>
+
+      <div class="orders-list" *ngIf="!loading && !errorMessage && orders.length > 0">
+        <article class="orders-item" *ngFor="let order of orders">
+          <header class="orders-item__header">
+            <h3 class="orders-item__number">
+              Заказ №{{ orderNumber(order) }}
+              <span class="orders-item__date" *ngIf="formatDate(order.createdAt)">
+                от {{ formatDate(order.createdAt) }}
+              </span>
+            </h3>
+            <span class="orders-item__status" [ngClass]="statusClass(order.status)">
+              {{ statusLabel(order.status) }}
+            </span>
+            <p class="orders-item__price">{{ order.totalAmount }} BYN</p>
+          </header>
+          <p class="orders-item__count">Кол-во товаров: {{ productsCount(order) }}</p>
+          <ul class="orders-item__products">
+            <li class="orders-item__product" *ngFor="let product of order.items">
+              <span class="orders-item__name">{{ product.name }}</span>
+              <span class="orders-item__qty">{{ product.quantity }} шт.</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

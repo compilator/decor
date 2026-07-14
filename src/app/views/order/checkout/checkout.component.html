@@ -1,0 +1,213 @@
+<section class="checkout">
+  <div class="container">
+    <h1 class="checkout__title">Оформление вашего заказа</h1>
+
+    <div class="checkout__layout">
+      <form class="checkout-form" id="checkout-form" (submit)="$event.preventDefault(); submit()">
+        <fieldset class="form-group">
+          <legend class="form-group__title">Выберите способ доставки</legend>
+          <div class="radio-group radio-group--tabs">
+            <label class="radio-group__option">
+              <input class="radio-group__input" type="radio" name="delivery" value="courier" [(ngModel)]="delivery">
+              <span class="radio-group__label">Курьером</span>
+            </label>
+            <label class="radio-group__option">
+              <input class="radio-group__input" type="radio" name="delivery" value="pickup" [(ngModel)]="delivery">
+              <span class="radio-group__label">Самовывоз</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <legend class="form-group__title">Заполните личные данные</legend>
+          <div class="form-group__fields form-group__fields--triple">
+            <div class="form-group__field">
+              <label class="visually-hidden" for="checkout-first-name">Имя</label>
+              <input
+                class="input checkout-form__input"
+                type="text"
+                id="checkout-first-name"
+                name="first-name"
+                placeholder="Имя"
+                autocomplete="given-name"
+                [(ngModel)]="firstName"
+              >
+            </div>
+            <div class="form-group__field">
+              <label class="visually-hidden" for="checkout-last-name">Фамилия</label>
+              <input
+                class="input checkout-form__input"
+                type="text"
+                id="checkout-last-name"
+                name="last-name"
+                placeholder="Фамилия"
+                autocomplete="family-name"
+                [(ngModel)]="lastName"
+              >
+            </div>
+            <div class="form-group__field">
+              <label class="visually-hidden" for="checkout-patronymic">Отчество</label>
+              <input
+                class="input checkout-form__input"
+                type="text"
+                id="checkout-patronymic"
+                name="patronymic"
+                placeholder="Отчество"
+                autocomplete="additional-name"
+                [(ngModel)]="patronymic"
+              >
+            </div>
+          </div>
+          <div class="form-group__fields form-group__fields--double">
+            <div class="form-group__field">
+              <label class="visually-hidden" for="checkout-phone">Телефон</label>
+              <input
+                class="input checkout-form__input"
+                type="tel"
+                id="checkout-phone"
+                name="phone"
+                placeholder="Телефон"
+                autocomplete="tel"
+                [(ngModel)]="phone"
+              >
+            </div>
+            <div class="form-group__field">
+              <label class="visually-hidden" for="checkout-email">E-mail</label>
+              <input
+                class="input checkout-form__input"
+                type="email"
+                id="checkout-email"
+                name="email"
+                placeholder="E-mail"
+                autocomplete="email"
+                [(ngModel)]="email"
+              >
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <legend class="form-group__title">Заполните адрес доставки</legend>
+          <div class="form-group__fields form-group__fields--address">
+            <div class="form-group__field form-group__field--wide">
+              <label class="visually-hidden" for="checkout-city">Населенный пункт</label>
+              <input
+                class="input checkout-form__input"
+                type="text"
+                id="checkout-city"
+                name="city"
+                placeholder="Населенный пункт"
+                autocomplete="address-level2"
+                [(ngModel)]="city"
+              >
+            </div>
+            <div class="form-group__field form-group__field--street">
+              <label class="visually-hidden" for="checkout-street">Улица</label>
+              <input
+                class="input checkout-form__input"
+                type="text"
+                id="checkout-street"
+                name="street"
+                placeholder="Улица"
+                autocomplete="address-line1"
+                [(ngModel)]="street"
+              >
+            </div>
+            <div class="form-group__field form-group__field--house">
+              <label class="visually-hidden" for="checkout-house">Дом</label>
+              <input
+                class="input checkout-form__input"
+                type="text"
+                id="checkout-house"
+                name="house"
+                placeholder="Дом"
+                [(ngModel)]="house"
+              >
+            </div>
+            <div class="form-group__field form-group__field--apartment">
+              <label class="visually-hidden" for="checkout-apartment">Квартира</label>
+              <input
+                class="input checkout-form__input"
+                type="text"
+                id="checkout-apartment"
+                name="apartment"
+                placeholder="Квартира"
+                [(ngModel)]="apartment"
+              >
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <legend class="form-group__title">Выберите способ оплаты</legend>
+          <div class="radio-group radio-group--list">
+            <label class="radio-group__option">
+              <input class="radio-group__input" type="radio" name="payment" value="card-online" [(ngModel)]="payment">
+              <span class="radio-group__label">Оплата банковской картой в интернет-магазине</span>
+            </label>
+            <label class="radio-group__option">
+              <input class="radio-group__input" type="radio" name="payment" value="cashless" [(ngModel)]="payment">
+              <span class="radio-group__label">Безналичный расчет при получении</span>
+            </label>
+            <label class="radio-group__option">
+              <input class="radio-group__input" type="radio" name="payment" value="cash" [(ngModel)]="payment">
+              <span class="radio-group__label">Наличный расчет при получении</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-group form-group--comment">
+          <legend class="form-group__title">Комментарий к заказу (необязательно)</legend>
+          <div class="form-group__field">
+            <label class="visually-hidden" for="checkout-comment">Комментарий к заказу</label>
+            <textarea
+              class="checkout-form__textarea"
+              id="checkout-comment"
+              name="comment"
+              placeholder="Комментарий"
+              [(ngModel)]="comment"
+            ></textarea>
+          </div>
+        </fieldset>
+      </form>
+
+      <aside class="checkout-order" aria-labelledby="checkout-order-title">
+        <div class="cart-summary checkout-order__summary">
+          <h2 class="cart-summary__title" id="checkout-order-title">Ваш заказ</h2>
+
+          <div class="cart-summary__rows">
+            <div class="price-row">
+              <span class="price-row__label">Товаров:</span>
+              <span class="price-row__value">{{ itemsCount }}</span>
+            </div>
+            <div class="price-row">
+              <span class="price-row__label">Общая стоимость:</span>
+              <span class="price-row__value">{{ productsTotal }} BYN</span>
+            </div>
+            <div class="price-row">
+              <span class="price-row__label">Стоимость доставки:</span>
+              <span class="price-row__value">{{ deliveryCostLabel }}</span>
+            </div>
+            <div class="price-row price-row--grand-total">
+              <span class="price-row__label">Итоговая стоимость:</span>
+              <span class="price-row__value">{{ grandTotal }} BYN</span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="button button--primary button--full checkout-order__submit"
+          type="submit"
+          form="checkout-form"
+          [disabled]="submitting || itemsCount === 0"
+        >
+          {{ submitting ? 'Оформляем…' : 'Подтвердить заказ' }}
+        </button>
+
+        <app-loader [show]="submitting"></app-loader>
+
+        <p class="checkout-order__error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+      </aside>
+    </div>
+  </div>
+</section>

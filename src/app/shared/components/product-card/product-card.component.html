@@ -1,0 +1,66 @@
+<article class="product-card favorite__item" *ngIf="variant === 'favorite'; else gridTpl">
+  <a class="favorite__media" [routerLink]="['/product', product.url]">
+    <img
+      class="product-card__image favorite__image"
+      [src]="imageUrl"
+      width="100"
+      height="100"
+      [alt]="product.name"
+    >
+  </a>
+  <h2 class="product-card__title favorite__name">
+    <a class="favorite__name-link" [routerLink]="['/product', product.url]">{{ product.name }}</a>
+  </h2>
+  <p class="product-card__price favorite__price">{{ product.price }} BYN</p>
+  <app-add-to-cart-control
+    [productId]="product.id"
+    buttonClass="button button--primary favorite__cart-button"
+    layout="favorite"
+  ></app-add-to-cart-control>
+  <button
+    class="favorite__remove"
+    type="button"
+    [attr.aria-label]="'Удалить ' + product.name + ' из избранного'"
+    [disabled]="isFavoriteUpdating"
+    (click)="onRemoveFavoriteClick($event)"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</article>
+
+<ng-template #gridTpl>
+  <article class="product-card" [ngClass]="cardClass">
+    <div class="product-card__media offers__card-media">
+      <img class="product-card__image" [src]="imageUrl" width="291" height="291" [alt]="product.name">
+      <button
+        *ngIf="isLogged"
+        class="offers__favorite"
+        type="button"
+        [class.is-active]="isFavorite"
+        [attr.aria-pressed]="isFavorite"
+        [attr.aria-label]="isFavorite ? 'Убрать из избранного' : 'Добавить в избранное'"
+        [disabled]="isFavoriteUpdating"
+        (click)="onFavoriteClick($event)"
+      >
+        <img class="offers__favorite-icon" src="assets/images/icon-heart.svg" width="24" height="24" alt="">
+      </button>
+    </div>
+
+    <div class="product-card__content">
+      <h3 class="product-card__title">{{ product.name }}</h3>
+
+      <div class="product-card__purchase offers__card-buy">
+        <p class="product-card__price">{{ product.price }} BYN</p>
+        <app-add-to-cart-control
+          [productId]="product.id"
+          buttonClass="button button--primary offers__cart-button"
+          layout="card"
+        ></app-add-to-cart-control>
+      </div>
+
+      <div class="product-card__footer offers__card-footer">
+        <a class="product-card__details offers__details" [routerLink]="['/product', product.url]">Подробнее</a>
+      </div>
+    </div>
+  </article>
+</ng-template>

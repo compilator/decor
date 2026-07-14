@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  position: relative;
+  z-index: var(--z-header);
+}
+
+:host:has(.header--menu-open),
+:host-context(body.header-menu-open) {
+  z-index: var(--z-menu-panel);
+}

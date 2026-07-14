@@ -1,0 +1,116 @@
+<section class="auth auth--register">
+  <div class="container">
+    <div class="auth__layout">
+      <div class="auth__content">
+        <h1 class="auth__title">Регистрация на сайте</h1>
+
+        <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <div class="auth-form__fields">
+            <label class="visually-hidden" for="signup-email">E-mail</label>
+            <input
+              id="signup-email"
+              class="auth-form__input input"
+              type="email"
+              formControlName="email"
+              placeholder="E-mail"
+              autocomplete="email"
+              [attr.aria-invalid]="email?.invalid && email?.touched"
+              aria-describedby="signup-email-error"
+            >
+            <p
+              class="auth-form__error"
+              id="signup-email-error"
+              *ngIf="email?.invalid && email?.touched"
+            >
+              <ng-container *ngIf="email?.errors?.['required']">Введите электронную почту</ng-container>
+              <ng-container *ngIf="email?.errors?.['email']">Некорректный формат E-mail</ng-container>
+            </p>
+
+            <label class="visually-hidden" for="signup-password">Пароль</label>
+            <input
+              id="signup-password"
+              class="auth-form__input input"
+              type="password"
+              formControlName="password"
+              placeholder="Пароль"
+              autocomplete="new-password"
+              [attr.aria-invalid]="password?.invalid && password?.touched"
+              aria-describedby="signup-password-error"
+            >
+            <p
+              class="auth-form__error"
+              id="signup-password-error"
+              *ngIf="password?.invalid && password?.touched"
+            >
+              Введите пароль
+            </p>
+
+            <label class="visually-hidden" for="signup-password-repeat">Повтор пароля</label>
+            <input
+              id="signup-password-repeat"
+              class="auth-form__input input"
+              type="password"
+              formControlName="passwordRepeat"
+              placeholder="Повторите пароль"
+              autocomplete="new-password"
+              [attr.aria-invalid]="passwordRepeat?.invalid && passwordRepeat?.touched"
+              aria-describedby="signup-password-repeat-error"
+            >
+            <p
+              class="auth-form__error"
+              id="signup-password-repeat-error"
+              *ngIf="passwordRepeat?.invalid && passwordRepeat?.touched"
+            >
+              <ng-container *ngIf="passwordRepeat?.errors?.['required']">Повторите пароль</ng-container>
+              <ng-container *ngIf="passwordRepeat?.errors?.['passwordMismatch']">Пароли не совпадают</ng-container>
+            </p>
+          </div>
+
+          <label class="auth-form__terms" for="signup-agreement">
+            <input
+              id="signup-agreement"
+              class="auth-form__checkbox"
+              type="checkbox"
+              formControlName="agreement"
+            >
+            <span class="auth-form__terms-text">
+              Я принимаю условия пользовательского соглашения и даю согласие на обработку персональных данных.
+            </span>
+          </label>
+          <p class="auth-form__error" *ngIf="agreement?.invalid && agreement?.touched">
+            Необходимо принять условия соглашения
+          </p>
+
+          <p class="auth-form__error auth-form__error--form" *ngIf="errorMessage" role="alert">
+            {{ errorMessage }}
+          </p>
+
+          <app-loader [show]="isLoading"></app-loader>
+
+          <button
+            class="button button--primary button--full auth-form__submit"
+            type="submit"
+            [disabled]="isLoading"
+          >
+            Зарегистрироваться
+          </button>
+        </form>
+
+        <p class="auth-form__footer">
+          Уже есть аккаунт?
+          <a class="auth-form__register-link" routerLink="/login">Войдите</a>
+        </p>
+      </div>
+
+      <div class="auth__media" aria-hidden="true">
+        <img
+          class="auth__media-image auth__media-image--succulent"
+          src="assets/images/hero-succulent.png"
+          width="421"
+          height="587"
+          alt=""
+        >
+      </div>
+    </div>
+  </div>
+</section>

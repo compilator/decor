@@ -1,0 +1,17 @@
+<div class="offers__stepper" aria-label="Количество">
+  <button
+    class="offers__stepper-button"
+    type="button"
+    aria-label="Уменьшить"
+    [disabled]="disabled || count <= min"
+    (click)="decrease()"
+  >−</button>
+  <span class="offers__stepper-value">{{ count }}</span>
+  <button
+    class="offers__stepper-button"
+    type="button"
+    aria-label="Увеличить"
+    [disabled]="disabled"
+    (click)="increase()"
+  >+</button>
+</div>

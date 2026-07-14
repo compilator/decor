@@ -1,0 +1,338 @@
+<section class="catalog">
+  <div class="container">
+    <div class="catalog__layout">
+      <aside class="catalog__sidebar catalog__sidebar--desktop" aria-label="Фильтры каталога">
+        <form class="catalog-filters" id="catalog-filters-desktop" (submit)="$event.preventDefault(); applyRangeFilters()">
+          <ng-container *ngTemplateOutlet="filtersTpl; context: { suffix: 'desktop' }"></ng-container>
+        </form>
+      </aside>
+
+      <div class="catalog__content">
+        <div class="catalog__head">
+          <h1 class="catalog__title">Каталог</h1>
+          <button class="filters-trigger" type="button" aria-haspopup="dialog" (click)="openFilters()">
+            Фильтры
+          </button>
+          <div
+            class="custom-select"
+            #sortSelect
+            data-custom-select="catalog-sort"
+            [attr.data-value]="sortValue"
+            [class.is-open]="sortOpen"
+          >
+            <button
+              class="custom-select__trigger"
+              type="button"
+              id="catalog-sort-trigger"
+              aria-haspopup="listbox"
+              aria-controls="catalog-sort-list"
+              [attr.aria-expanded]="sortOpen"
+              (click)="toggleSort($event)"
+            >
+              <span class="custom-select__label">{{ selectedSortLabel }}</span>
+              <img
+                class="custom-select__chevron"
+                src="assets/images/icon-arrow-down.svg"
+                width="16"
+                height="16"
+                alt=""
+                aria-hidden="true"
+              >
+            </button>
+            <ul class="custom-select__list" id="catalog-sort-list" role="listbox" [hidden]="!sortOpen">
+              <li *ngFor="let option of sortOptions">
+                <button
+                  class="custom-select__option"
+                  type="button"
+                  role="option"
+                  [class.is-selected]="sortValue === option.value"
+                  [class.is-active]="sortValue === option.value"
+                  [attr.aria-selected]="sortValue === option.value"
+                  (click)="selectSort(option)"
+                >
+                  {{ option.label }}
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="catalog-chips" aria-label="Активные фильтры" *ngIf="appliedFilters.length">
+          <span class="catalog-chip" *ngFor="let filter of appliedFilters">
+            {{ filter.name }}
+            <button
+              class="catalog-chip__remove"
+              type="button"
+              [attr.aria-label]="'Убрать фильтр ' + filter.name"
+              (click)="removeFilter(filter)"
+            >
+              ×
+            </button>
+          </span>
+        </div>
+
+        <app-loader [show]="loading"></app-loader>
+
+        <p class="catalog__empty" *ngIf="!loading && error">
+          Не удалось загрузить каталог. Попробуйте позже.
+        </p>
+
+        <p class="catalog__empty" *ngIf="!loading && !error && !products.length">
+          Товары не найдены
+        </p>
+
+        <div class="catalog__grid" *ngIf="!loading && !error && products.length">
+          <app-product-card
+            *ngFor="let product of products"
+            [product]="product"
+            cardClass="catalog__card offers__card"
+          ></app-product-card>
+        </div>
+
+        <nav class="catalog-pagination" aria-label="Пагинация каталога" *ngIf="!loading && !error && pagesCount > 1">
+          <button
+            class="catalog-pagination__button"
+            type="button"
+            aria-label="Предыдущая страница"
+            [disabled]="currentPage === 1"
+            (click)="setPage(currentPage - 1)"
+          >
+            <img
+              class="catalog-pagination__icon"
+              src="assets/images/icon-arrow-left.svg"
+              width="16"
+              height="16"
+              alt=""
+              aria-hidden="true"
+            >
+          </button>
+          <div class="catalog-pagination__list">
+            <ng-container *ngFor="let page of pages; let i = index">
+              <span
+                class="catalog-pagination__ellipsis"
+                aria-hidden="true"
+                *ngIf="i > 0 && page - pages[i - 1] > 1"
+              >…</span>
+              <button
+                class="catalog-pagination__page"
+                type="button"
+                [class.catalog-pagination__page--active]="currentPage === page"
+                [attr.aria-current]="currentPage === page ? 'page' : null"
+                (click)="setPage(page)"
+              >
+                {{ page }}
+              </button>
+            </ng-container>
+          </div>
+          <button
+            class="catalog-pagination__button"
+            type="button"
+            aria-label="Следующая страница"
+            [disabled]="currentPage >= pagesCount"
+            (click)="setPage(currentPage + 1)"
+          >
+            <img
+              class="catalog-pagination__icon"
+              src="assets/images/icon-arrow-right.svg"
+              width="16"
+              height="16"
+              alt=""
+              aria-hidden="true"
+            >
+          </button>
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div
+  class="overlay-backdrop"
+  [class.is-open]="filtersOpen"
+  [hidden]="!filtersOpen"
+  (click)="closeFilters()"
+></div>
+
+<div
+  class="filters-drawer"
+  [class.is-open]="filtersOpen"
+  [attr.aria-hidden]="!filtersOpen"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="filters-drawer-title"
+>
+  <div class="filters-drawer__header">
+    <h2 class="filters-drawer__title" id="filters-drawer-title">Фильтры</h2>
+    <button class="filters-drawer__close" type="button" aria-label="Закрыть фильтры" (click)="closeFilters()">
+      ×
+    </button>
+  </div>
+  <div class="filters-drawer__body">
+    <form class="catalog-filters" (submit)="$event.preventDefault()">
+      <ng-container *ngTemplateOutlet="filtersTpl; context: { suffix: 'mobile' }"></ng-container>
+    </form>
+  </div>
+  <div class="filters-drawer__footer">
+    <button class="button button--secondary" type="button" (click)="resetFilters()">Сбросить</button>
+    <button class="button button--primary" type="button" (click)="applyFilters()">Применить</button>
+  </div>
+</div>
+
+<ng-template #filtersTpl let-suffix="suffix">
+  <div
+    class="filter-accordion"
+    *ngFor="let category of categories"
+    [class.is-open]="isAccordionOpen(category.url)"
+  >
+    <h2 class="filter-accordion__heading">
+      <button
+        class="filter-accordion__header"
+        type="button"
+        [attr.aria-expanded]="isAccordionOpen(category.url)"
+        [attr.aria-controls]="'filter-' + category.url + '-' + suffix"
+        (click)="toggleAccordion(category.url)"
+      >
+        <span class="filter-accordion__title">{{ category.name }}</span>
+        <img
+          class="filter-accordion__arrow"
+          src="assets/images/icon-arrow-down.svg"
+          width="16"
+          height="16"
+          alt=""
+          aria-hidden="true"
+        >
+      </button>
+    </h2>
+    <div
+      class="filter-accordion__panel"
+      [id]="'filter-' + category.url + '-' + suffix"
+      role="region"
+      [attr.aria-label]="category.name"
+    >
+      <div class="filter-accordion__content">
+        <ul class="filter-checks">
+          <li class="filter-checks__item" *ngFor="let type of category.types">
+            <label class="filter-check">
+              <input
+                class="filter-check__input"
+                type="checkbox"
+                [name]="category.url + '-' + suffix"
+                [value]="type.url"
+                [checked]="isTypeChecked(type.url)"
+                (change)="toggleType(type.url)"
+              >
+              <span class="filter-check__box" aria-hidden="true"></span>
+              <span class="filter-check__label">{{ type.name }}</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-accordion" [class.is-open]="isAccordionOpen('diameter')">
+    <h2 class="filter-accordion__heading">
+      <button
+        class="filter-accordion__header"
+        type="button"
+        [attr.aria-expanded]="isAccordionOpen('diameter')"
+        [attr.aria-controls]="'filter-diameter-' + suffix"
+        (click)="toggleAccordion('diameter')"
+      >
+        <span class="filter-accordion__title">Диаметр</span>
+        <img
+          class="filter-accordion__arrow"
+          src="assets/images/icon-arrow-down.svg"
+          width="16"
+          height="16"
+          alt=""
+          aria-hidden="true"
+        >
+      </button>
+    </h2>
+    <div class="filter-accordion__panel" [id]="'filter-diameter-' + suffix" role="region" aria-label="Диаметр">
+      <div class="filter-accordion__content">
+        <div class="filter-range">
+          <label class="filter-range__field">
+            <span class="filter-range__label">от</span>
+            <input
+              class="filter-range__input"
+              type="text"
+              inputmode="numeric"
+              aria-label="Диаметр от"
+              [(ngModel)]="diameterFrom"
+              [ngModelOptions]="{standalone: true}"
+              (change)="suffix === 'desktop' && applyRangeFilters()"
+            >
+          </label>
+          <label class="filter-range__field">
+            <span class="filter-range__label">до</span>
+            <input
+              class="filter-range__input"
+              type="text"
+              inputmode="numeric"
+              aria-label="Диаметр до"
+              [(ngModel)]="diameterTo"
+              [ngModelOptions]="{standalone: true}"
+              (change)="suffix === 'desktop' && applyRangeFilters()"
+            >
+          </label>
+          <span class="filter-range__unit">см</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-accordion" [class.is-open]="isAccordionOpen('height')">
+    <h2 class="filter-accordion__heading">
+      <button
+        class="filter-accordion__header"
+        type="button"
+        [attr.aria-expanded]="isAccordionOpen('height')"
+        [attr.aria-controls]="'filter-height-' + suffix"
+        (click)="toggleAccordion('height')"
+      >
+        <span class="filter-accordion__title">Высота</span>
+        <img
+          class="filter-accordion__arrow"
+          src="assets/images/icon-arrow-down.svg"
+          width="16"
+          height="16"
+          alt=""
+          aria-hidden="true"
+        >
+      </button>
+    </h2>
+    <div class="filter-accordion__panel" [id]="'filter-height-' + suffix" role="region" aria-label="Высота">
+      <div class="filter-accordion__content">
+        <div class="filter-range">
+          <label class="filter-range__field">
+            <span class="filter-range__label">от</span>
+            <input
+              class="filter-range__input"
+              type="text"
+              inputmode="numeric"
+              aria-label="Высота от"
+              [(ngModel)]="heightFrom"
+              [ngModelOptions]="{standalone: true}"
+              (change)="suffix === 'desktop' && applyRangeFilters()"
+            >
+          </label>
+          <label class="filter-range__field">
+            <span class="filter-range__label">до</span>
+            <input
+              class="filter-range__input"
+              type="text"
+              inputmode="numeric"
+              aria-label="Высота до"
+              [(ngModel)]="heightTo"
+              [ngModelOptions]="{standalone: true}"
+              (change)="suffix === 'desktop' && applyRangeFilters()"
+            >
+          </label>
+          <span class="filter-range__unit">см</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

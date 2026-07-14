@@ -1,0 +1,33 @@
+:host {
+  display: contents;
+}
+
+.product-card:not(.favorite__item) {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.product-card__content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.product-card__purchase {
+  margin-top: auto;
+}
+
+.product-card__footer {
+  flex-shrink: 0;
+}
+
+.favorite__cart-state {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 160px;
+}

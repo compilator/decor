@@ -1,0 +1,143 @@
+<section class="hero">
+  <div class="container hero__container">
+    <div class="hero__content">
+      <h1 class="hero__title">Создадим сад<br>в вашем доме и офисе</h1>
+      <p class="hero__text">
+        Если в большом городе вы скучаете по природе, ничто не мешает вам превратить в оазис квартиру или офис.
+        И мы поможем вам это сделать!
+      </p>
+    </div>
+
+    <div class="hero__visual">
+      <div class="hero__media">
+        <img class="hero__media-accent" src="assets/images/hero-plant-accent.png" width="560" height="562" alt="" aria-hidden="true">
+        <img class="hero__media-fade" src="assets/images/hero-plant-fade.png" width="300" height="340" alt="" aria-hidden="true">
+        <img class="hero__image" src="assets/images/hero-succulent.png" width="540" height="680" alt="Суккулент в кашпо">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="promo">
+  <div class="container promo__grid">
+    <article class="promo-card">
+      <h2 class="promo-card__title">Получи скидку 10% в нашем инстаграме!</h2>
+      <p class="promo-card__text">
+        Подпишись на наш аккаунт и напиши в direct "хочу промокод"
+      </p>
+      <img class="promo-card__image" src="assets/images/promo-succulent.png" width="134" height="154" alt="" aria-hidden="true">
+      <a class="promo-card__button button button--primary" href="#">Получить промокод</a>
+    </article>
+
+    <article class="promo-card">
+      <h2 class="promo-card__title">Новая коллекция керамических кашпо в наличии</h2>
+      <div class="promo-card__pots">
+        <img class="promo-card__pot promo-card__pot--light" src="assets/images/promo-pot-light.png" width="91" height="85" alt="" aria-hidden="true">
+        <img class="promo-card__pot promo-card__pot--dark" src="assets/images/promo-pot-dark.png" width="136" height="126" alt="" aria-hidden="true">
+      </div>
+      <a class="promo-card__button button button--primary" routerLink="/catalog">В каталог</a>
+    </article>
+  </div>
+</section>
+
+<section class="offers">
+  <div class="container">
+    <div class="offers__head">
+      <h2 class="offers__title">Лучшие предложения месяца</h2>
+    </div>
+
+    <app-loader [show]="offersLoading"></app-loader>
+
+    <p class="offers__empty" *ngIf="!offersLoading && (offersError || !offers.length)">
+      Пока нет лучших предложений
+    </p>
+
+    <owl-carousel-o class="offers-carousel" [options]="offersOptions" *ngIf="!offersLoading && offers.length">
+      <ng-template carouselSlide *ngFor="let product of offers">
+        <app-product-card
+          [product]="product"
+          cardClass="offers__card"
+        ></app-product-card>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+</section>
+
+<section class="delivery" id="delivery">
+  <div class="delivery__layout">
+    <div class="delivery__panel">
+      <div class="delivery__content">
+        <h2 class="delivery__title">Доставка и оплата</h2>
+
+        <div class="delivery__block">
+          <img class="delivery__icon" src="assets/images/icon-delivery.svg" width="70" height="70" alt="" aria-hidden="true">
+          <div class="delivery__lists">
+            <ul class="delivery__list">
+              <li class="delivery__list-item">
+                1. Доставка курьером (по г. Минску) - 10 BYN
+                <span class="delivery__note">На следующий день после оформления заказа</span>
+              </li>
+              <li class="delivery__list-item">
+                2. Самовывоз - 0 BYN
+                <span class="delivery__note">Пункт выдачи товаров: г. Минск, ул. Калиновского 67, подъезд 1, офис 6</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="delivery__block">
+          <img class="delivery__icon" src="assets/images/icon-payment.svg" width="70" height="70" alt="" aria-hidden="true">
+          <div class="delivery__lists">
+            <ul class="delivery__list">
+              <li class="delivery__list-item">1. Наличный расчет при получении</li>
+              <li class="delivery__list-item">2. Безналичный расчет при получении</li>
+              <li class="delivery__list-item">3. Оплата банковской картой в интернет-магазине</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="delivery__media">
+      <img
+        class="delivery__image"
+        src="assets/images/delivery-plants.png"
+        width="1491"
+        height="971"
+        alt="Комнатные растения в интерьере"
+      >
+    </div>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <div class="container">
+    <h2 class="reviews__title">Отзывы о Home decor</h2>
+
+    <owl-carousel-o class="reviews-carousel" [options]="reviewsOptions">
+      <ng-template carouselSlide *ngFor="let review of reviews">
+        <article class="reviews-card">
+          <div class="reviews-card__header">
+            <img class="reviews-card__avatar" [src]="review.avatar" width="60" height="60" alt="" aria-hidden="true">
+            <h3 class="reviews-card__name">{{ review.name }}</h3>
+          </div>
+          <p class="reviews-card__text">{{ review.text }}</p>
+        </article>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+</section>
+
+<section class="map" aria-label="Карта">
+  <div class="map__embed">
+    <iframe
+      class="map__frame"
+      title="Магазин Home decor на карте — ул. Калиновского 61, Минск"
+      [src]="mapSrc"
+      width="100%"
+      height="500"
+      allowfullscreen
+      loading="lazy"
+    ></iframe>
+  </div>
+</section>

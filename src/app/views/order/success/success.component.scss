@@ -1,0 +1,9 @@
+:host.page-thank-you {
+  display: block;
+}
+
+:host.page-thank-you .thank-you {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}

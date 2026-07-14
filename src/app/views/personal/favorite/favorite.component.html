@@ -1,0 +1,27 @@
+<section class="favorite">
+  <div class="container">
+    <h1 class="favorite__title">Избранное</h1>
+
+    <app-loader [show]="loading"></app-loader>
+
+    <div class="favorite__error" *ngIf="!loading && errorMessage">
+      <p class="favorite__error-message">{{ errorMessage }}</p>
+      <button class="button button--secondary" type="button" (click)="reload()">
+        Повторить
+      </button>
+    </div>
+
+    <div class="favorite__empty" *ngIf="!loading && !errorMessage && favorites.length === 0">
+      <p class="favorite__empty-message">В избранном пока нет товаров.</p>
+      <a class="button button--primary" routerLink="/catalog">В каталог</a>
+    </div>
+
+    <div class="favorite__list" *ngIf="!loading && !errorMessage && favorites.length > 0">
+      <app-product-card
+        *ngFor="let product of favorites"
+        variant="favorite"
+        [product]="product"
+      ></app-product-card>
+    </div>
+  </div>
+</section>

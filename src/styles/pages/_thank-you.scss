@@ -1,0 +1,111 @@
+/* Thank You page — PDF 16 fullscreen dialog look */
+body.page-thank-you .header,
+body.page-thank-you .footer {
+  display: none;
+}
+
+.thank-you {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px 0;
+  overflow: hidden;
+  background: var(--color-white);
+}
+
+.thank-you__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 32px;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.thank-you__close:hover,
+.thank-you__close:focus-visible {
+  color: var(--color-heading);
+}
+
+.thank-you__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.thank-you__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-heading);
+  color: var(--color-heading);
+}
+
+.thank-you__details {
+  display: grid;
+  gap: 8px;
+  margin-top: 40px;
+  width: 100%;
+}
+
+.thank-you__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-heading);
+  color: var(--color-heading);
+}
+
+.thank-you__image-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 64px;
+  pointer-events: none;
+}
+
+.thank-you__image {
+  display: block;
+  width: min(100%, 420px);
+  height: auto;
+  object-fit: contain;
+  object-position: bottom center;
+}
+
+@media (max-width: 767px) {
+  .thank-you {
+    padding: 72px 16px 0;
+    align-items: flex-start;
+    padding-top: 120px;
+  }
+
+  .thank-you__title {
+    font-size: 28px;
+  }
+
+  .thank-you__text {
+    font-size: var(--font-size-base);
+  }
+
+  .thank-you__image {
+    width: min(100%, 280px);
+  }
+}

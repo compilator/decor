@@ -1,0 +1,108 @@
+<section class="cart">
+  <div class="container">
+    <h1 class="cart__title">Корзина</h1>
+
+    <app-loader [show]="loading"></app-loader>
+
+    <p class="cart__empty" *ngIf="!loading && errorMessage" role="alert">{{ errorMessage }}</p>
+
+    <ng-container *ngIf="!loading && !errorMessage">
+      <div class="cart__empty-state" *ngIf="!items.length; else cartContent">
+        <p class="cart__empty">Корзина пуста</p>
+        <a class="button button--primary" routerLink="/catalog">Перейти в каталог</a>
+      </div>
+
+      <ng-template #cartContent>
+        <div class="cart__layout">
+          <div class="cart__items" role="table" aria-label="Товары в корзине">
+            <div class="cart-table__head" role="row">
+              <span class="cart-table__head-cell cart-table__head-cell--product" role="columnheader">Товар</span>
+              <span class="cart-table__head-cell cart-table__head-cell--price" role="columnheader">Цена</span>
+              <span class="cart-table__head-cell cart-table__head-cell--quantity" role="columnheader">Количество</span>
+              <span class="cart-table__head-cell cart-table__head-cell--total" role="columnheader">Сумма</span>
+              <span class="cart-table__head-cell" role="columnheader">Удалить</span>
+            </div>
+
+            <div class="cart__rows" role="rowgroup">
+              <article class="cart-item" role="row" *ngFor="let item of items">
+                <div class="cart-item__product" role="cell">
+                  <a class="cart-item__media" [routerLink]="['/product', item.product.url]">
+                    <img
+                      class="cart-item__image"
+                      [src]="productImage(item.product.image)"
+                      width="80"
+                      height="80"
+                      [alt]="item.product.name"
+                    >
+                  </a>
+                  <h2 class="cart-item__title">
+                    <a class="cart-item__title-link" [routerLink]="['/product', item.product.url]">{{ item.product.name }}</a>
+                  </h2>
+                </div>
+                <p class="cart-item__price" role="cell">{{ item.product.price }} BYN</p>
+                <div class="cart-item__quantity" role="cell">
+                  <div class="quantity-stepper">
+                    <app-count-selector
+                      [count]="item.quantity"
+                      [min]="0"
+                      [disabled]="isUpdating(item.product.id)"
+                      (countChange)="onQuantityChange(item.product.id, $event)"
+                    ></app-count-selector>
+                  </div>
+                </div>
+                <p class="cart-item__total" role="cell">{{ itemTotal(item) }} BYN</p>
+                <div class="cart-item__actions" role="cell">
+                  <button
+                    class="cart-item__remove"
+                    type="button"
+                    [attr.aria-label]="'Удалить ' + item.product.name"
+                    [disabled]="isUpdating(item.product.id)"
+                    (click)="removeItem(item.product.id)"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="cart__sidebar">
+            <aside class="cart-summary" aria-labelledby="cart-summary-title">
+              <h2 class="cart-summary__title" id="cart-summary-title">Ваш заказ</h2>
+
+              <div class="cart-summary__rows">
+                <div class="price-row">
+                  <span class="price-row__label">Товаров:</span>
+                  <span class="price-row__value">{{ totalCount }}</span>
+                </div>
+                <div class="price-row price-row--total">
+                  <span class="price-row__label">Общая стоимость:</span>
+                  <span class="price-row__value">{{ totalPrice }} BYN</span>
+                </div>
+              </div>
+
+              <p class="cart-summary__note">* без учета доставки</p>
+            </aside>
+
+            <div class="cart-summary__actions">
+              <a class="button button--secondary cart-summary__continue" routerLink="/catalog">Продолжить покупки</a>
+              <a class="button button--primary cart-summary__checkout" routerLink="/order">Оформить заказ</a>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <section class="product-related cart__related" aria-labelledby="cart-related-title" *ngIf="!loading && related.length">
+      <h2 class="product-related__title offers__title" id="cart-related-title">Рекомендуемые товары</h2>
+      <owl-carousel-o class="product-related__carousel offers-carousel" [options]="relatedOptions">
+        <ng-template carouselSlide *ngFor="let product of related">
+          <app-product-card
+            [product]="product"
+            cardClass="product-related__card offers__card"
+          ></app-product-card>
+        </ng-template>
+      </owl-carousel-o>
+    </section>
+  </div>
+</section>

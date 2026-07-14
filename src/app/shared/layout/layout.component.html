@@ -1,0 +1,9 @@
+<ng-container *ngIf="showChrome">
+  <app-header></app-header>
+</ng-container>
+<main class="main" [class.main--thank-you]="!showChrome">
+  <router-outlet></router-outlet>
+</main>
+<ng-container *ngIf="showChrome">
+  <app-footer></app-footer>
+</ng-container>

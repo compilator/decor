@@ -1,0 +1,15 @@
+<div
+  *ngIf="visible && !compact"
+  class="loader-overlay"
+  role="status"
+  aria-live="polite"
+  aria-label="Загрузка"
+>
+  <div class="loader loader--lg" aria-hidden="true"></div>
+</div>
+
+<div
+  *ngIf="visible && compact"
+  class="loader loader--compact"
+  aria-hidden="true"
+></div>

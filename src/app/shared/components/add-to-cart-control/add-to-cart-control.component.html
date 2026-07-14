@@ -1,0 +1,71 @@
+<div
+  class="add-to-cart"
+  [class.add-to-cart--card]="layout === 'card'"
+  [class.add-to-cart--detail]="layout === 'detail'"
+  [class.add-to-cart--favorite]="layout === 'favorite'"
+>
+  <ng-container *ngIf="layout === 'detail'">
+    <div class="add-to-cart__quantity product-buy__quantity">
+      <span class="product-buy__quantity-label">Количество:</span>
+      <app-count-selector
+        [count]="count"
+        [min]="0"
+        [disabled]="updating"
+        (countChange)="onCountChange($event)"
+      ></app-count-selector>
+    </div>
+  </ng-container>
+
+  <div
+    *ngIf="layout === 'favorite'"
+    class="add-to-cart__selector-slot"
+    [attr.aria-hidden]="count === 0"
+  >
+    <app-count-selector
+      *ngIf="count > 0"
+      [count]="count"
+      [min]="0"
+      [disabled]="updating"
+      (countChange)="onCountChange($event)"
+    ></app-count-selector>
+  </div>
+
+  <div class="add-to-cart__button-slot">
+    <button
+      *ngIf="count === 0"
+      class="add-to-cart__button"
+      [ngClass]="buttonClass"
+      type="button"
+      [disabled]="updating"
+      (click)="add()"
+    >
+      В корзину
+    </button>
+
+    <div
+      *ngIf="count > 0"
+      class="add-to-cart__button add-to-cart__status"
+      [ngClass]="buttonClass"
+      role="status"
+      aria-live="polite"
+    >
+      В корзине
+    </div>
+  </div>
+
+  <div
+    *ngIf="layout === 'card'"
+    class="add-to-cart__selector-slot"
+    [attr.aria-hidden]="count === 0"
+  >
+    <app-count-selector
+      *ngIf="count > 0"
+      [count]="count"
+      [min]="0"
+      [disabled]="updating"
+      (countChange)="onCountChange($event)"
+    ></app-count-selector>
+  </div>
+
+  <p class="add-to-cart__error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+</div>

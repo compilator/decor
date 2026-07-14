@@ -1,0 +1,179 @@
+<header class="header" [class.header--menu-open]="menuOpen">
+  <div class="container header__container">
+    <a class="logo header__logo" routerLink="/" (click)="closeMenu()">
+      <img class="logo__image" src="assets/images/logo.svg" alt="Home decor">
+    </a>
+
+    <button
+      class="header__burger"
+      type="button"
+      [attr.aria-expanded]="menuOpen"
+      aria-controls="header-mobile-menu"
+      [attr.aria-label]="menuOpen ? 'Закрыть меню' : 'Открыть меню'"
+      (click)="toggleMenu()"
+    >
+      <span class="header__burger-line" aria-hidden="true"></span>
+      <span class="header__burger-line" aria-hidden="true"></span>
+      <span class="header__burger-line" aria-hidden="true"></span>
+    </button>
+
+    <div
+      class="header__mobile-menu"
+      id="header-mobile-menu"
+      (click)="onMenuPanelClick($event)"
+    >
+      <div class="header__row header__row--top">
+        <nav class="nav nav--primary" aria-label="Основное меню">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a
+                class="nav__link"
+                routerLink="/"
+                routerLinkActive="nav__link--active"
+                [routerLinkActiveOptions]="{exact: true}"
+                (click)="closeMenu()"
+              >Главная</a>
+            </li>
+            <li class="nav__item">
+              <a
+                class="nav__link"
+                routerLink="/catalog"
+                routerLinkActive="nav__link--active"
+                (click)="closeMenu()"
+              >Каталог</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__link" routerLink="/" fragment="reviews" (click)="closeMenu()">Отзывы</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__link" routerLink="/" fragment="delivery" (click)="closeMenu()">Доставка и оплата</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="header__actions">
+          <a class="header__phone" href="tel:+375299182888">+ 375 (29) 918-28-88</a>
+          <div class="header__icons">
+            <a
+              *ngIf="!isLogged"
+              class="icon-link icon-link--login"
+              routerLink="/login"
+              aria-label="Войти"
+              (click)="closeMenu()"
+            >
+              <img class="icon-link__image" src="assets/images/icon-login.svg" width="23" height="23" alt="">
+            </a>
+
+            <ng-container *ngIf="isLogged">
+              <a
+                class="icon-link icon-link--profile"
+                routerLink="/personal"
+                aria-label="Личный кабинет"
+                (click)="closeMenu()"
+              >
+                <img class="icon-link__image" src="assets/images/icon-profile.svg" width="23" height="23" alt="">
+              </a>
+              <a
+                class="icon-link icon-link--favorites"
+                routerLink="/personal/favorites"
+                aria-label="Избранное"
+                (click)="closeMenu()"
+              >
+                <img class="icon-link__image" src="assets/images/icon-heart.svg" width="24" height="24" alt="">
+              </a>
+              <button
+                class="icon-link icon-link--logout"
+                type="button"
+                aria-label="Выйти"
+                [disabled]="isLogoutLoading"
+                (click)="logout()"
+              >
+                <img class="icon-link__image" src="assets/images/icon-login.svg" width="23" height="23" alt="">
+              </button>
+            </ng-container>
+
+            <a class="icon-link icon-link--cart" routerLink="/cart" aria-label="Корзина" (click)="closeMenu()">
+              <img class="icon-link__image" src="assets/images/icon-cart.svg" width="24" height="24" alt="">
+              <span class="icon-link__badge">{{ cartCount }}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="header__divider" aria-hidden="true"></div>
+
+      <div class="header__row header__row--bottom">
+        <nav class="header-categories" aria-label="Категории">
+          <ul class="header-categories__list">
+            <li class="header-categories__item" *ngFor="let category of categories">
+              <a
+                class="header-categories__link"
+                routerLink="/catalog"
+                [queryParams]="getCategoryQueryParams(category)"
+                (click)="closeMenu()"
+              >{{ category.name }}</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="search-wrapper" #searchWrapper>
+          <form class="search" role="search" (submit)="$event.preventDefault()">
+            <img class="search__icon" src="assets/images/icon-search.svg" width="16" height="16" alt="" aria-hidden="true">
+            <input
+              class="search__input input"
+              type="search"
+              name="headerSearch"
+              placeholder="Начните искать"
+              aria-label="Поиск"
+              autocomplete="off"
+              role="combobox"
+              [attr.aria-expanded]="isSearchOpen"
+              aria-controls="search-results"
+              aria-autocomplete="list"
+              [(ngModel)]="searchValue"
+              [ngModelOptions]="{standalone: true}"
+              (input)="onSearchInput()"
+              (keydown)="onSearchKeydown($event)"
+            >
+          </form>
+
+          <ul
+            class="search-results"
+            id="search-results"
+            role="listbox"
+            *ngIf="isSearchOpen && searchValue.trim().length >= 3"
+          >
+            <li role="presentation" *ngIf="searchLoading" class="search-results__empty">
+              <app-loader [compact]="true"></app-loader>
+            </li>
+            <li role="presentation" *ngIf="!searchLoading && !searchResults.length" class="search-results__empty">
+              Ничего не найдено
+            </li>
+            <li role="presentation" *ngFor="let item of searchResults; let i = index" [hidden]="searchLoading">
+              <button
+                type="button"
+                class="search-result"
+                [class.search-result--active]="i === activeSearchIndex"
+                role="option"
+                [attr.aria-selected]="i === activeSearchIndex"
+                (click)="goToSearchResult(item.url)"
+                (mouseenter)="activeSearchIndex = i"
+              >
+                <img class="search-result__image" [src]="productImage(item)" width="48" height="48" alt="">
+                <span class="search-result__title">{{ item.name }}</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div
+  *ngIf="menuOpen"
+  id="menu-backdrop"
+  class="overlay-backdrop overlay-backdrop--menu is-open"
+  (click)="closeMenu()"
+  aria-hidden="true"
+></div>

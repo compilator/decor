@@ -1,0 +1,184 @@
+<section class="personal">
+  <div class="container">
+    <h1 class="personal__title">Личный кабинет</h1>
+
+    <nav class="personal-tabs" aria-label="Разделы личного кабинета">
+      <div class="personal-tabs__list">
+        <a class="personal-tabs__link personal-tabs__link--active" routerLink="/personal" aria-current="page">
+          Личные данные
+        </a>
+        <a class="personal-tabs__link" routerLink="/personal/orders">Ваши заказы</a>
+      </div>
+    </nav>
+
+    <app-loader [show]="loading"></app-loader>
+
+    <form class="personal-form" id="personal-form" *ngIf="!loading" (submit)="$event.preventDefault(); save()">
+      <fieldset class="form-group">
+        <legend class="form-group__title">Личные данные</legend>
+        <p class="personal-form__lead">Введённые данные автоматически подставятся при оформлении заказа.</p>
+
+        <div class="form-group__fields form-group__fields--triple">
+          <div class="form-group__field">
+            <label class="visually-hidden" for="personal-first-name">Имя</label>
+            <input
+              class="input personal-form__input"
+              type="text"
+              id="personal-first-name"
+              name="first-name"
+              placeholder="Имя"
+              autocomplete="given-name"
+              [(ngModel)]="firstName"
+            >
+          </div>
+          <div class="form-group__field">
+            <label class="visually-hidden" for="personal-last-name">Фамилия</label>
+            <input
+              class="input personal-form__input"
+              type="text"
+              id="personal-last-name"
+              name="last-name"
+              placeholder="Фамилия"
+              autocomplete="family-name"
+              [(ngModel)]="lastName"
+            >
+          </div>
+          <div class="form-group__field">
+            <label class="visually-hidden" for="personal-patronymic">Отчество</label>
+            <input
+              class="input personal-form__input"
+              type="text"
+              id="personal-patronymic"
+              name="patronymic"
+              placeholder="Отчество"
+              autocomplete="additional-name"
+              [(ngModel)]="patronymic"
+            >
+          </div>
+        </div>
+
+        <div class="form-group__fields form-group__fields--double">
+          <div class="form-group__field">
+            <label class="visually-hidden" for="personal-phone">Телефон</label>
+            <input
+              class="input personal-form__input"
+              type="tel"
+              id="personal-phone"
+              name="phone"
+              placeholder="Телефон"
+              autocomplete="tel"
+              [(ngModel)]="phone"
+            >
+          </div>
+          <div class="form-group__field">
+            <label class="visually-hidden" for="personal-email">E-mail</label>
+            <input
+              class="input personal-form__input"
+              type="email"
+              id="personal-email"
+              name="email"
+              placeholder="E-mail"
+              autocomplete="email"
+              [(ngModel)]="email"
+            >
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group personal-form__address">
+        <legend class="form-group__title">Адрес доставки</legend>
+        <div class="form-group__fields form-group__fields--address">
+          <div class="form-group__field form-group__field--wide">
+            <label class="visually-hidden" for="personal-city">Населенный пункт</label>
+            <input
+              class="input personal-form__input"
+              type="text"
+              id="personal-city"
+              name="city"
+              placeholder="Населенный пункт"
+              autocomplete="address-level2"
+              [(ngModel)]="city"
+            >
+          </div>
+          <div class="form-group__field form-group__field--street">
+            <label class="visually-hidden" for="personal-street">Улица</label>
+            <input
+              class="input personal-form__input"
+              type="text"
+              id="personal-street"
+              name="street"
+              placeholder="Улица"
+              autocomplete="address-line1"
+              [(ngModel)]="street"
+            >
+          </div>
+          <div class="form-group__field form-group__field--house">
+            <label class="visually-hidden" for="personal-house">Дом</label>
+            <input
+              class="input personal-form__input"
+              type="text"
+              id="personal-house"
+              name="house"
+              placeholder="Дом"
+              [(ngModel)]="house"
+            >
+          </div>
+          <div class="form-group__field form-group__field--apartment">
+            <label class="visually-hidden" for="personal-apartment">Квартира</label>
+            <input
+              class="input personal-form__input"
+              type="text"
+              id="personal-apartment"
+              name="apartment"
+              placeholder="Квартира"
+              [(ngModel)]="apartment"
+            >
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <legend class="form-group__title">Предпочитаемый способ доставки</legend>
+        <div class="radio-group radio-group--tabs">
+          <label class="radio-group__option">
+            <input class="radio-group__input" type="radio" name="delivery" value="courier" [(ngModel)]="delivery">
+            <span class="radio-group__label">Курьером</span>
+          </label>
+          <label class="radio-group__option">
+            <input class="radio-group__input" type="radio" name="delivery" value="pickup" [(ngModel)]="delivery">
+            <span class="radio-group__label">Самовывоз</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <legend class="form-group__title">Предпочитаемый способ оплаты</legend>
+        <div class="radio-group radio-group--list">
+          <label class="radio-group__option">
+            <input class="radio-group__input" type="radio" name="payment" value="card-online" [(ngModel)]="payment">
+            <span class="radio-group__label">Оплата банковской картой в интернет-магазине</span>
+          </label>
+          <label class="radio-group__option">
+            <input class="radio-group__input" type="radio" name="payment" value="cashless" [(ngModel)]="payment">
+            <span class="radio-group__label">Безналичный расчет при получении</span>
+          </label>
+          <label class="radio-group__option">
+            <input class="radio-group__input" type="radio" name="payment" value="cash" [(ngModel)]="payment">
+            <span class="radio-group__label">Наличный расчет при получении</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <p class="personal-form__error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+      <p class="personal-form__success" *ngIf="successMessage" role="status">{{ successMessage }}</p>
+
+      <button
+        class="button button--primary personal-form__submit"
+        type="submit"
+        [disabled]="saving"
+      >
+        {{ saving ? 'Сохраняем…' : 'Сохранить' }}
+      </button>
+    </form>
+  </div>
+</section>

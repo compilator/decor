@@ -1,0 +1,83 @@
+<app-loader [show]="loading"></app-loader>
+
+<p class="product__empty container" *ngIf="!loading && error">
+  Товар не найден или временно недоступен.
+</p>
+
+<article class="product" *ngIf="!loading && product">
+  <div class="container">
+    <h1 class="product__title">{{ product.name }}</h1>
+
+    <div class="product__hero">
+      <div class="product-gallery" aria-label="Фотографии товара">
+        <div class="product-gallery__main">
+          <img
+            class="product-gallery__image"
+            [src]="imageUrl"
+            width="528"
+            height="528"
+            [alt]="product.name"
+          >
+        </div>
+      </div>
+
+      <div class="product-details">
+        <div class="product-details__specs" *ngIf="specs.length">
+          <section class="product-spec" *ngFor="let spec of specs">
+            <img class="product-spec__icon" [src]="spec.icon" alt="" aria-hidden="true">
+            <h2 class="product-spec__title">{{ spec.title }}</h2>
+            <p class="product-spec__text">{{ spec.text }}</p>
+          </section>
+        </div>
+
+        <hr class="product-details__divider" *ngIf="specs.length">
+
+        <dl class="product-meta">
+          <div class="product-meta__row" *ngIf="product.height">
+            <dt class="product-meta__label">Высота:</dt>
+            <dd class="product-meta__value">{{ product.height }} см</dd>
+          </div>
+          <div class="product-meta__row" *ngIf="product.diameter">
+            <dt class="product-meta__label">Диаметр (горшка):</dt>
+            <dd class="product-meta__value">{{ product.diameter }} см</dd>
+          </div>
+        </dl>
+
+        <div class="product-buy" [class.product-buy--auth]="isLogged">
+          <app-add-to-cart-control
+            [productId]="product.id"
+            buttonClass="button button--primary product-buy__cart"
+            layout="detail"
+          ></app-add-to-cart-control>
+
+          <p class="product__price product-buy__price">{{ product.price }} BYN</p>
+
+          <button
+            *ngIf="isLogged"
+            class="button button--secondary product-buy__favorite"
+            type="button"
+            [class.is-active]="isFavorite"
+            [attr.aria-pressed]="isFavorite"
+            [disabled]="isFavoriteUpdating"
+            (click)="toggleFavorite()"
+          >
+            {{ isFavorite ? 'В избранном' : 'В избранное' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <section class="product-related" aria-labelledby="product-related-title" *ngIf="related.length">
+      <h2 class="product-related__title offers__title" id="product-related-title">Рекомендуемые товары</h2>
+
+      <owl-carousel-o class="product-related__carousel offers-carousel" [options]="relatedOptions">
+        <ng-template carouselSlide *ngFor="let item of related">
+          <app-product-card
+            [product]="item"
+            cardClass="product-related__card offers__card"
+          ></app-product-card>
+        </ng-template>
+      </owl-carousel-o>
+    </section>
+  </div>
+</article>
