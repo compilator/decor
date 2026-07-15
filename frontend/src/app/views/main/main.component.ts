@@ -1,9 +1,9 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { OwlOptions } from 'ngx-owl-carousel-o';
+import { CarouselComponent, OwlOptions } from 'ngx-owl-carousel-o';
 import { catchError, finalize, of } from 'rxjs';
 import { ProductService } from '../../shared/services/product.service';
 import {
@@ -20,6 +20,9 @@ import { ProductType } from '../../../types/product.type';
 })
 export class MainComponent {
   private readonly destroyRef = inject(DestroyRef);
+
+  @ViewChild('offersCarousel') offersCarousel?: CarouselComponent;
+  @ViewChild('reviewsCarousel') reviewsCarousel?: CarouselComponent;
 
   offers: ProductType[] = [];
   offersLoading = true;
@@ -71,6 +74,22 @@ export class MainComponent {
       this.offers = products;
       this.offersOptions = buildProductCarouselOptions(products.length);
     });
+  }
+
+  prevOffers(): void {
+    this.offersCarousel?.prev();
+  }
+
+  nextOffers(): void {
+    this.offersCarousel?.next();
+  }
+
+  prevReviews(): void {
+    this.reviewsCarousel?.prev();
+  }
+
+  nextReviews(): void {
+    this.reviewsCarousel?.next();
   }
 
   /** Offers carousel load can shift anchors; re-apply fragment after layout settles. */

@@ -1,17 +1,12 @@
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
-const NAV_ICONS: [string, string] = [
-  '<img src="assets/images/icon-arrow-left.svg" width="16" height="16" alt="">',
-  '<img src="assets/images/icon-arrow-right.svg" width="16" height="16" alt="">'
-];
-
-/** Product carousels: desktop shows up to 4 items. */
+/** Shared product/related carousel options. Built-in owl nav stays off — use custom buttons. */
 export function buildProductCarouselOptions(slideCount: number): OwlOptions {
-  const canNavigate = slideCount > 4;
+  const hasSlides = slideCount > 0;
 
   return {
-    loop: canNavigate,
-    nav: canNavigate,
+    loop: hasSlides,
+    nav: false,
     mouseDrag: true,
     touchDrag: true,
     pullDrag: false,
@@ -19,7 +14,6 @@ export function buildProductCarouselOptions(slideCount: number): OwlOptions {
     navSpeed: 700,
     margin: 26,
     autoHeight: false,
-    navText: NAV_ICONS,
     responsive: {
       0: { items: 1 },
       600: { items: 2 },
@@ -29,13 +23,18 @@ export function buildProductCarouselOptions(slideCount: number): OwlOptions {
   };
 }
 
-/** Reviews carousel: desktop shows up to 3 items. */
+/** Related products: same as product carousel with forced loop. */
+export function buildRelatedCarouselOptions(slideCount: number): OwlOptions {
+  return buildProductCarouselOptions(slideCount);
+}
+
+/** Reviews carousel: infinite loop; custom side/title buttons control it. */
 export function buildReviewsCarouselOptions(slideCount: number): OwlOptions {
-  const canNavigate = slideCount > 3;
+  const hasSlides = slideCount > 0;
 
   return {
-    loop: canNavigate,
-    nav: canNavigate,
+    loop: hasSlides,
+    nav: false,
     mouseDrag: true,
     touchDrag: true,
     pullDrag: false,
@@ -43,7 +42,6 @@ export function buildReviewsCarouselOptions(slideCount: number): OwlOptions {
     navSpeed: 700,
     margin: 26,
     autoHeight: false,
-    navText: NAV_ICONS,
     responsive: {
       0: {
         items: 1,

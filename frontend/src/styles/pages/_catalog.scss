@@ -13,29 +13,62 @@
 }
 
 .catalog__head {
+  grid-area: head;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 24px;
+  margin-bottom: 33px;
 }
 
-.catalog__head .catalog__title {
-  margin-right: auto;
+.catalog__toolbar {
+  grid-area: toolbar;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  min-height: 40px;
+}
+
+.catalog__toolbar .catalog-chips {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.catalog__toolbar .custom-select {
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 
 .catalog__layout {
   display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr;
-  gap: var(--sidebar-gap);
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  grid-template-areas:
+    ". head"
+    ". toolbar"
+    "sidebar content";
+  column-gap: var(--sidebar-gap);
+  row-gap: 0;
   align-items: start;
+}
+
+.catalog__sidebar {
+  grid-area: sidebar;
+}
+
+.catalog__content {
+  grid-area: content;
+  min-width: 0;
 }
 
 /* Sidebar filters — accordions */
 .catalog-filters {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 }
 
 .filter-accordion__heading {
@@ -46,15 +79,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  padding: 14px 30px;
+  padding: 12px 16px;
   border: 0;
   border-radius: 12px;
   background: #afcdaf;
   color: #2e2e2e;
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: var(--font-weight-regular);
   line-height: 1.2;
   text-align: left;
@@ -74,7 +107,10 @@
 
 .filter-accordion__title {
   flex: 1;
+  min-width: 0;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .filter-accordion__arrow {
@@ -91,7 +127,7 @@
 .filter-accordion__panel {
   overflow: hidden;
   max-height: 0;
-  padding: 0 15px;
+  padding: 0 12px;
   border: 0 solid #afcdaf;
   border-width: 0 1px;
   border-radius: 0 0 12px 12px;
@@ -101,15 +137,15 @@
 
 .filter-accordion.is-open .filter-accordion__panel {
   max-height: 520px;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   border-width: 0 1px 1px;
 }
 
 /* Checkbox list */
 .filter-checks {
   display: grid;
-  gap: 26px;
+  gap: 18px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -180,11 +216,13 @@
   flex: 1 1 auto;
   min-width: 0;
   font-family: var(--font-body);
-  font-size: var(--font-size-base);
+  font-size: 14px;
   font-weight: var(--font-weight-regular);
-  line-height: 1.2;
+  line-height: 1.25;
   color: var(--color-text);
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  hyphens: auto;
   transition: color var(--transition-base);
 }
 
@@ -209,7 +247,7 @@
 
 .filter-range__label {
   font-family: var(--font-body);
-  font-size: var(--font-size-base);
+  font-size: 14px;
   color: var(--color-text);
 }
 
@@ -246,15 +284,7 @@
   }
 }
 
-/* Toolbar — kept for legacy; head uses custom-select */
-.catalog__toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 24px;
-  margin-bottom: 24px;
-}
-
+/* Toolbar sort helpers */
 .catalog__sort {
   display: flex;
   align-items: center;
@@ -284,12 +314,9 @@
 .catalog__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--gap-grid);
+  column-gap: var(--gap-grid);
+  row-gap: 30px;
   align-items: stretch;
-}
-
-.catalog__content {
-  min-width: 0;
 }
 
 .catalog__card.offers__card {
@@ -371,8 +398,9 @@
   }
 
   .catalog__layout {
-    grid-template-columns: 220px 1fr;
-    gap: 32px;
+    grid-template-columns: 220px minmax(0, 1fr);
+    column-gap: 32px;
+    row-gap: 0;
   }
 
   .catalog__grid {
@@ -387,6 +415,14 @@
 @media (max-width: 1023px) {
   .catalog__layout {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "head"
+      "toolbar"
+      "content";
+  }
+
+  .catalog__sidebar {
+    display: none;
   }
 
   .catalog__head {
@@ -396,13 +432,14 @@
     gap: 16px;
   }
 
-  .catalog__head .custom-select {
-    margin-left: auto;
+  .catalog__toolbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
   }
 
-  .catalog__toolbar {
-    flex-direction: column;
-    align-items: flex-start;
+  .catalog__toolbar .custom-select {
+    margin-left: auto;
   }
 
   .catalog__sort-select {
@@ -457,10 +494,6 @@
 
   .catalog__card.offers__card .offers__cart-button {
     min-width: 120px;
-  }
-
-  .catalog__card .offers__card-buy {
-    gap: 8px;
   }
 
   .catalog__card .product-card__price {

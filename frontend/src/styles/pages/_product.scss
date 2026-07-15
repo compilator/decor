@@ -74,16 +74,39 @@
 
 .product-details__specs {
   display: grid;
-  gap: 24px;
+  gap: 0;
 }
 
-.product-spec__icon { 
-  object-fit: cover;
-  float: left;
+.product-spec {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  column-gap: 28px;
+  row-gap: 13px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--color-primary-muted);
+}
+
+.product-spec:first-child {
+  padding-top: 0;
+}
+
+.product-spec:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.product-spec__icon {
+  grid-row: 1 / span 2;
+  grid-column: 1;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  object-fit: contain;
 }
 
 .product-spec__title {
-  margin: 0 0 13px;
+  grid-column: 2;
+  margin: 0;
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-heading);
@@ -91,8 +114,9 @@
 }
 
 .product-spec__text {
+  grid-column: 2;
   margin: 0;
-  padding-left: 55px;
+  padding-left: 0;
   font-size: var(--font-size-base);
   line-height: var(--line-height-body);
   color: var(--color-text);
@@ -180,24 +204,52 @@
 
 .product-buy__favorite {
   grid-area: favorite;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   width: 100%;
   min-width: 0;
   min-height: var(--button-height);
+  font-weight: var(--font-weight-regular);
+}
+
+.product-buy__favorite-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.product-buy__favorite:not(.is-active) .product-buy__favorite-icon {
+  /* Match secondary button green */
+  filter: invert(48%) sepia(12%) saturate(900%) hue-rotate(75deg) brightness(95%);
 }
 
 .product-buy__cart {
   width: 100%;
   min-width: 0;
   min-height: var(--button-height);
+  font-weight: var(--font-weight-regular);
 }
 
-/* Related products */
+/* Related products — same nav pattern as home “Лучшие предложения” */
 .product-related {
+  position: relative;
   margin-top: 80px;
+  overflow: visible;
+}
+
+.product-related__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
 }
 
 .product-related__title {
-  margin: 0 0 40px;
+  margin: 0;
 }
 
 .product-related__grid {
@@ -300,7 +352,7 @@
   }
 
   .product-related__title {
-    margin-bottom: 32px;
+    margin-bottom: 0;
   }
 
   .product-related__grid {

@@ -1,62 +1,14 @@
 <section class="catalog">
   <div class="container">
     <div class="catalog__layout">
-      <aside class="catalog__sidebar catalog__sidebar--desktop" aria-label="Фильтры каталога">
-        <form class="catalog-filters" id="catalog-filters-desktop" (submit)="$event.preventDefault(); applyRangeFilters()">
-          <ng-container *ngTemplateOutlet="filtersTpl; context: { suffix: 'desktop' }"></ng-container>
-        </form>
-      </aside>
+      <div class="catalog__head">
+        <h1 class="catalog__title">Каталог</h1>
+        <button class="filters-trigger" type="button" aria-haspopup="dialog" (click)="openFilters()">
+          Фильтры
+        </button>
+      </div>
 
-      <div class="catalog__content">
-        <div class="catalog__head">
-          <h1 class="catalog__title">Каталог</h1>
-          <button class="filters-trigger" type="button" aria-haspopup="dialog" (click)="openFilters()">
-            Фильтры
-          </button>
-          <div
-            class="custom-select"
-            #sortSelect
-            data-custom-select="catalog-sort"
-            [attr.data-value]="sortValue"
-            [class.is-open]="sortOpen"
-          >
-            <button
-              class="custom-select__trigger"
-              type="button"
-              id="catalog-sort-trigger"
-              aria-haspopup="listbox"
-              aria-controls="catalog-sort-list"
-              [attr.aria-expanded]="sortOpen"
-              (click)="toggleSort($event)"
-            >
-              <span class="custom-select__label">{{ selectedSortLabel }}</span>
-              <img
-                class="custom-select__chevron"
-                src="assets/images/icon-arrow-down.svg"
-                width="16"
-                height="16"
-                alt=""
-                aria-hidden="true"
-              >
-            </button>
-            <ul class="custom-select__list" id="catalog-sort-list" role="listbox" [hidden]="!sortOpen">
-              <li *ngFor="let option of sortOptions">
-                <button
-                  class="custom-select__option"
-                  type="button"
-                  role="option"
-                  [class.is-selected]="sortValue === option.value"
-                  [class.is-active]="sortValue === option.value"
-                  [attr.aria-selected]="sortValue === option.value"
-                  (click)="selectSort(option)"
-                >
-                  {{ option.label }}
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-
+      <div class="catalog__toolbar">
         <div class="catalog-chips" aria-label="Активные фильтры" *ngIf="appliedFilters.length">
           <span class="catalog-chip" *ngFor="let filter of appliedFilters">
             {{ filter.name }}
@@ -66,11 +18,62 @@
               [attr.aria-label]="'Убрать фильтр ' + filter.name"
               (click)="removeFilter(filter)"
             >
-              ×
+              <span class="catalog-chip__close" aria-hidden="true"></span>
             </button>
           </span>
         </div>
 
+        <div
+          class="custom-select"
+          #sortSelect
+          data-custom-select="catalog-sort"
+          [attr.data-value]="sortValue"
+          [class.is-open]="sortOpen"
+        >
+          <button
+            class="custom-select__trigger"
+            type="button"
+            id="catalog-sort-trigger"
+            aria-haspopup="listbox"
+            aria-controls="catalog-sort-list"
+            [attr.aria-expanded]="sortOpen"
+            (click)="toggleSort($event)"
+          >
+            <span class="custom-select__label">{{ selectedSortLabel }}</span>
+            <img
+              class="custom-select__chevron"
+              src="assets/images/icon-arrow-down.svg"
+              width="16"
+              height="16"
+              alt=""
+              aria-hidden="true"
+            >
+          </button>
+          <ul class="custom-select__list" id="catalog-sort-list" role="listbox" [hidden]="!sortOpen">
+            <li *ngFor="let option of sortOptions">
+              <button
+                class="custom-select__option"
+                type="button"
+                role="option"
+                [class.is-selected]="sortValue === option.value"
+                [class.is-active]="sortValue === option.value"
+                [attr.aria-selected]="sortValue === option.value"
+                (click)="selectSort(option)"
+              >
+                {{ option.label }}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <aside class="catalog__sidebar catalog__sidebar--desktop" aria-label="Фильтры каталога">
+        <form class="catalog-filters" id="catalog-filters-desktop" (submit)="$event.preventDefault(); applyRangeFilters()">
+          <ng-container *ngTemplateOutlet="filtersTpl; context: { suffix: 'desktop' }"></ng-container>
+        </form>
+      </aside>
+
+      <div class="catalog__content">
         <app-loader [show]="loading"></app-loader>
 
         <p class="catalog__empty" *ngIf="!loading && error">

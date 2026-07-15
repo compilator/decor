@@ -29,9 +29,17 @@ export class AddToCartControlComponent implements OnChanges {
     return this.layout === 'favorite';
   }
 
+  @HostBinding('class.add-to-cart-host--card')
+  get isCardHost(): boolean {
+    return this.layout === 'card';
+  }
+
   @HostBinding('style.display')
   get hostDisplay(): string | null {
-    return this.layout === 'detail' ? 'contents' : null;
+    if (this.layout === 'detail' || this.layout === 'card') {
+      return 'contents';
+    }
+    return null;
   }
 
   constructor(private cartService: CartService) {

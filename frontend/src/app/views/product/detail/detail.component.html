@@ -61,6 +61,14 @@
             [disabled]="isFavoriteUpdating"
             (click)="toggleFavorite()"
           >
+            <img
+              class="product-buy__favorite-icon"
+              [src]="isFavorite ? 'assets/images/icon-heart-filled.svg' : 'assets/images/icon-heart.svg'"
+              width="20"
+              height="20"
+              alt=""
+              aria-hidden="true"
+            >
             {{ isFavorite ? 'В избранном' : 'В избранное' }}
           </button>
         </div>
@@ -68,9 +76,23 @@
     </div>
 
     <section class="product-related" aria-labelledby="product-related-title" *ngIf="related.length">
-      <h2 class="product-related__title offers__title" id="product-related-title">Рекомендуемые товары</h2>
+      <div class="product-related__head">
+        <h2 class="product-related__title offers__title" id="product-related-title">Рекомендуемые товары</h2>
+        <div class="carousel-nav">
+          <button class="carousel-nav__button" type="button" aria-label="Предыдущий слайд" (click)="prevRelated()">
+            <img class="carousel-nav__icon" src="assets/images/icon-arrow-left.svg" width="16" height="16" alt="" aria-hidden="true">
+          </button>
+          <button class="carousel-nav__button" type="button" aria-label="Следующий слайд" (click)="nextRelated()">
+            <img class="carousel-nav__icon" src="assets/images/icon-arrow-right.svg" width="16" height="16" alt="" aria-hidden="true">
+          </button>
+        </div>
+      </div>
 
-      <owl-carousel-o class="product-related__carousel offers-carousel" [options]="relatedOptions">
+      <owl-carousel-o
+        #relatedCarousel
+        class="product-related__carousel offers-carousel"
+        [options]="relatedOptions"
+      >
         <ng-template carouselSlide *ngFor="let item of related">
           <app-product-card
             [product]="item"

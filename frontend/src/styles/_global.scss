@@ -42,30 +42,101 @@ body.is-scroll-locked {
   scroll-margin-top: 24px;
 }
 
+/* Default owl built-in nav hidden — sections use .carousel-nav / .reviews__nav-button */
 .offers-carousel .owl-nav,
 .reviews-carousel .owl-nav,
 .related-carousel .owl-nav {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  margin-top: 16px;
+  display: none !important;
 }
 
-.offers-carousel .owl-nav button,
-.reviews-carousel .owl-nav button,
-.related-carousel .owl-nav button {
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  background: var(--color-white);
+/* Shared title-row carousel arrows (offers + related) */
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  gap: 46px;
+  flex-shrink: 0;
+}
+
+.carousel-nav__button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.carousel-nav__button:hover,
+.carousel-nav__button:focus {
+  background: transparent;
+}
+
+.carousel-nav__icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.offers > .container {
+  position: relative;
 }
 
 .offers .offers__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
   margin-bottom: 24px;
+}
+
+.offers .offers__title {
+  margin: 0;
+}
+
+/* Reviews: custom side arrows (always visible) */
+.reviews > .container {
+  position: relative;
+  overflow: visible;
+}
+
+.reviews__slider {
+  position: relative;
+  overflow: visible;
+}
+
+.reviews__nav-button {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.reviews__nav-button--prev {
+  left: -41px;
+}
+
+.reviews__nav-button--next {
+  right: -41px;
+}
+
+.reviews__nav-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
 }
 
 .offers-carousel .owl-stage,
@@ -184,9 +255,20 @@ body.is-scroll-locked {
     min-height: 0;
   }
 
-  .reviews-carousel .owl-nav {
-    justify-content: center;
-    margin-top: 20px;
+  .reviews__slider {
+    padding-inline: 28px;
+  }
+
+  .reviews__nav-button--prev {
+    left: 0;
+  }
+
+  .reviews__nav-button--next {
+    right: 0;
+  }
+
+  .carousel-nav {
+    gap: 24px;
   }
 }
 

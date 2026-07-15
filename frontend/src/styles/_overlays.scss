@@ -199,37 +199,67 @@ body.is-scroll-locked {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 0 0 24px;
+  margin: 0;
 }
 
 .catalog-chip {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 32px;
-  padding: 6px 12px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--color-surface-gray);
+  gap: 10px;
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background: var(--color-white);
   color: var(--color-heading);
   font-family: var(--font-body);
   font-size: var(--font-size-sm);
-  cursor: pointer;
+  line-height: 1.2;
 }
 
 .catalog-chip__remove {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
+  margin: 0;
   padding: 0;
   border: 0;
   background: transparent;
   color: var(--color-text-muted);
-  font-size: 16px;
-  line-height: 1;
   cursor: pointer;
+}
+
+.catalog-chip__close {
+  position: relative;
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.catalog-chip__close::before,
+.catalog-chip__close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.catalog-chip__close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.catalog-chip__close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.catalog-chip__remove:hover {
+  color: var(--color-heading);
 }
 
 /* ---------- Mobile filters drawer ---------- */

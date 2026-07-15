@@ -53,13 +53,13 @@
     </div>
   </div>
 
+  <hr *ngIf="layout === 'card'" class="add-to-cart__divider" aria-hidden="true">
+
   <div
     *ngIf="layout === 'card'"
     class="add-to-cart__selector-slot"
-    [attr.aria-hidden]="count === 0"
   >
     <app-count-selector
-      *ngIf="count > 0"
       [count]="count"
       [min]="0"
       [disabled]="updating"

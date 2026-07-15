@@ -1,12 +1,12 @@
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { OwlOptions } from 'ngx-owl-carousel-o';
+import { CarouselComponent, OwlOptions } from 'ngx-owl-carousel-o';
 import { catchError, finalize, map, of, switchMap } from 'rxjs';
 import { AuthService } from '../../../core/auth/auth.service';
 import { FavoriteService } from '../../../shared/services/favorite.service';
 import { ProductService } from '../../../shared/services/product.service';
-import { buildProductCarouselOptions } from '../../../shared/utils/owl-carousel.util';
+import { buildRelatedCarouselOptions } from '../../../shared/utils/owl-carousel.util';
 import { getProductImageUrl } from '../../../shared/utils/product-image.util';
 import { ProductType } from '../../../../types/product.type';
 
@@ -25,6 +25,8 @@ type ProductSpec = {
 export class ProductDetailComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
+  @ViewChild('relatedCarousel') relatedCarousel?: CarouselComponent;
+
   product: ProductType | null = null;
   related: ProductType[] = [];
   specs: ProductSpec[] = [];
@@ -34,7 +36,7 @@ export class ProductDetailComponent implements OnInit {
   isLogged = false;
   isFavorite = false;
   isFavoriteUpdating = false;
-  relatedOptions: OwlOptions = buildProductCarouselOptions(0);
+  relatedOptions: OwlOptions = buildRelatedCarouselOptions(0);
 
   constructor(
     private route: ActivatedRoute,
@@ -75,7 +77,7 @@ export class ProductDetailComponent implements OnInit {
         this.specs = [];
         this.isFavorite = false;
         this.isFavoriteUpdating = false;
-        this.relatedOptions = buildProductCarouselOptions(0);
+        this.relatedOptions = buildRelatedCarouselOptions(0);
 
         if (!url) {
           this.error = true;
@@ -100,7 +102,7 @@ export class ProductDetailComponent implements OnInit {
 
             return this.productService.getProducts({ types: [], page: 1 }).pipe(
               map(response =>
-                response.items.filter(item => item.url !== product.url).slice(0, 4)
+                response.items.filter(item => item.url !== product.url).slice(0, 8)
               ),
               catchError(() => of([] as ProductType[]))
             );
@@ -113,7 +115,7 @@ export class ProductDetailComponent implements OnInit {
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(related => {
       this.related = related || [];
-      this.relatedOptions = buildProductCarouselOptions(this.related.length);
+      this.relatedOptions = buildRelatedCarouselOptions(this.related.length);
     });
   }
 
@@ -125,6 +127,14 @@ export class ProductDetailComponent implements OnInit {
     this.favoriteService.toggleFavorite(this.product.id).subscribe({
       error: () => undefined
     });
+  }
+
+  prevRelated(): void {
+    this.relatedCarousel?.prev();
+  }
+
+  nextRelated(): void {
+    this.relatedCarousel?.next();
   }
 
   private syncFavoriteState(): void {

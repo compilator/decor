@@ -42,25 +42,25 @@
         [disabled]="isFavoriteUpdating"
         (click)="onFavoriteClick($event)"
       >
-        <img class="offers__favorite-icon" src="assets/images/icon-heart.svg" width="24" height="24" alt="">
+        <img
+          class="offers__favorite-icon"
+          [src]="isFavorite ? 'assets/images/icon-heart-filled.svg' : 'assets/images/icon-heart.svg'"
+          width="24"
+          height="24"
+          alt=""
+        >
       </button>
     </div>
 
     <div class="product-card__content">
       <h3 class="product-card__title">{{ product.name }}</h3>
-
-      <div class="product-card__purchase offers__card-buy">
-        <p class="product-card__price">{{ product.price }} BYN</p>
-        <app-add-to-cart-control
-          [productId]="product.id"
-          buttonClass="button button--primary offers__cart-button"
-          layout="card"
-        ></app-add-to-cart-control>
-      </div>
-
-      <div class="product-card__footer offers__card-footer">
-        <a class="product-card__details offers__details" [routerLink]="['/product', product.url]">Подробнее</a>
-      </div>
+      <p class="product-card__price">{{ product.price }} BYN</p>
+      <app-add-to-cart-control
+        [productId]="product.id"
+        buttonClass="button button--primary offers__cart-button"
+        layout="card"
+      ></app-add-to-cart-control>
+      <a class="product-card__details offers__details" [routerLink]="['/product', product.url]">Подробнее</a>
     </div>
   </article>
 </ng-template>

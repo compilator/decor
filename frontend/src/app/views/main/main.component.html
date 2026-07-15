@@ -44,6 +44,14 @@
   <div class="container">
     <div class="offers__head">
       <h2 class="offers__title">Лучшие предложения месяца</h2>
+      <div class="carousel-nav" *ngIf="!offersLoading && offers.length">
+        <button class="carousel-nav__button" type="button" aria-label="Предыдущий слайд" (click)="prevOffers()">
+          <img class="carousel-nav__icon" src="assets/images/icon-arrow-left.svg" width="16" height="16" alt="" aria-hidden="true">
+        </button>
+        <button class="carousel-nav__button" type="button" aria-label="Следующий слайд" (click)="nextOffers()">
+          <img class="carousel-nav__icon" src="assets/images/icon-arrow-right.svg" width="16" height="16" alt="" aria-hidden="true">
+        </button>
+      </div>
     </div>
 
     <app-loader [show]="offersLoading"></app-loader>
@@ -52,7 +60,12 @@
       Пока нет лучших предложений
     </p>
 
-    <owl-carousel-o class="offers-carousel" [options]="offersOptions" *ngIf="!offersLoading && offers.length">
+    <owl-carousel-o
+      #offersCarousel
+      class="offers-carousel"
+      [options]="offersOptions"
+      *ngIf="!offersLoading && offers.length"
+    >
       <ng-template carouselSlide *ngFor="let product of offers">
         <app-product-card
           [product]="product"
@@ -114,17 +127,37 @@
   <div class="container">
     <h2 class="reviews__title">Отзывы о Home decor</h2>
 
-    <owl-carousel-o class="reviews-carousel" [options]="reviewsOptions">
-      <ng-template carouselSlide *ngFor="let review of reviews">
-        <article class="reviews-card">
-          <div class="reviews-card__header">
-            <img class="reviews-card__avatar" [src]="review.avatar" width="60" height="60" alt="" aria-hidden="true">
-            <h3 class="reviews-card__name">{{ review.name }}</h3>
-          </div>
-          <p class="reviews-card__text">{{ review.text }}</p>
-        </article>
-      </ng-template>
-    </owl-carousel-o>
+    <div class="reviews__slider">
+      <button
+        class="reviews__nav-button reviews__nav-button--prev"
+        type="button"
+        aria-label="Предыдущий отзыв"
+        (click)="prevReviews()"
+      >
+        <img class="reviews__nav-icon" src="assets/images/icon-arrow-left.svg" width="16" height="16" alt="" aria-hidden="true">
+      </button>
+
+      <owl-carousel-o #reviewsCarousel class="reviews-carousel" [options]="reviewsOptions">
+        <ng-template carouselSlide *ngFor="let review of reviews">
+          <article class="reviews-card">
+            <div class="reviews-card__header">
+              <img class="reviews-card__avatar" [src]="review.avatar" width="60" height="60" alt="" aria-hidden="true">
+              <h3 class="reviews-card__name">{{ review.name }}</h3>
+            </div>
+            <p class="reviews-card__text">{{ review.text }}</p>
+          </article>
+        </ng-template>
+      </owl-carousel-o>
+
+      <button
+        class="reviews__nav-button reviews__nav-button--next"
+        type="button"
+        aria-label="Следующий отзыв"
+        (click)="nextReviews()"
+      >
+        <img class="reviews__nav-icon" src="assets/images/icon-arrow-right.svg" width="16" height="16" alt="" aria-hidden="true">
+      </button>
+    </div>
   </div>
 </section>
 

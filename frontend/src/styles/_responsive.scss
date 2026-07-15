@@ -206,11 +206,11 @@
     padding-inline: 36px;
   }
 
-  .reviews__nav-button:first-child {
+  .reviews__nav-button--prev {
     left: 0;
   }
 
-  .reviews__nav-button:last-child {
+  .reviews__nav-button--next {
     right: 0;
   }
 
@@ -361,13 +361,8 @@
     max-width: none;
   }
 
-  .offers__card-buy {
-    flex-wrap: wrap;
-  }
-
-  .offers__card-footer {
-    flex-wrap: wrap;
-    gap: 16px;
+  .offers__card .product-card__content {
+    column-gap: 8px;
   }
 
   /* Delivery */
@@ -792,23 +787,9 @@
     aspect-ratio: 1 / 1;
   }
 
-  .offers__card-buy {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
   .offers__cart-button {
     width: auto;
     min-width: 0;
-  }
-
-  .offers__card-footer {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
   }
 
   .offers__stepper {
@@ -819,13 +800,13 @@
     text-align: left;
   }
 
-  /* Mobile card variant A (PDF 4): stepper can hide in compact catalog lists */
-  .catalog__card .offers__stepper {
-    display: none;
+  .offers__card .product-card__content {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
-  .catalog__card .offers__card-footer {
-    justify-content: flex-start;
+  .add-to-cart--card .add-to-cart__button-slot {
+    width: min(166px, 100%);
+    margin-top: 12px;
   }
 
   /* Mobile card variant B (PDF 6): price badge on image for related/offers when flagged */
@@ -844,8 +825,9 @@
     background: rgba(232, 232, 232, 0.92);
   }
 
-  .product-card--price-badge .offers__card-buy,
-  .product-card--price-badge .offers__card-footer {
+  .product-card--price-badge .add-to-cart--card .add-to-cart__button-slot,
+  .product-card--price-badge .add-to-cart--card .add-to-cart__selector-slot,
+  .product-card--price-badge .product-card__details {
     display: none;
   }
 
@@ -893,11 +875,19 @@
   }
 
   .reviews__slider {
-    padding-inline: 0;
+    padding-inline: 28px;
   }
 
   .reviews__nav-button {
-    display: none;
+    display: inline-flex;
+  }
+
+  .reviews__nav-button--prev {
+    left: 0;
+  }
+
+  .reviews__nav-button--next {
+    right: 0;
   }
 
   .reviews__grid {
