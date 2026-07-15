@@ -1,0 +1,1 @@
+function r(e){return e==="pickup"?"self":"delivery"}function i(e){return e==="self"?"pickup":"courier"}function n(e){return e==="card-online"?"cardOnline":e==="cashless"?"cardToCourier":"cashToCourier"}function t(e){return e==="cardOnline"?"card-online":e==="cardToCourier"?"cashless":"cash"}export{r as a,i as b,n as c,t as d};
