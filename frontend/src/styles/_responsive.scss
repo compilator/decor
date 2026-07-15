@@ -97,9 +97,10 @@
     position: relative;
     bottom: auto;
     left: auto;
-    width: 380px;
-    height: 478px;
+    width: 369px; /* 380 * 0.97 */
+    height: 464px; /* 478 * 0.97 */
     margin-inline: auto;
+    object-fit: contain;
   }
 
   /* Promo */
@@ -333,9 +334,10 @@
     position: relative;
     bottom: auto;
     left: auto;
-    width: 290px;
-    height: 350px;
+    width: 281px; /* 290 * 0.97 */
+    height: 340px; /* 350 * 0.97 */
     margin-inline: auto;
+    object-fit: contain;
   }
 
   /* Promo */
@@ -702,10 +704,10 @@
 
   .hero__image {
     position: absolute;
-    bottom: 0;
+    bottom: -4%;
     left: 50%;
     transform: translateX(-46%);
-    width: min(68vw, 260px);
+    width: min(66vw, 252px); /* ~3% smaller than 68vw / 260px */
     max-width: none;
     height: auto;
     aspect-ratio: 540 / 680;

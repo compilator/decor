@@ -493,13 +493,13 @@ body {
 
 .hero__image {
   position: absolute;
-  bottom: 0;
+  bottom: -12px;
   left: 30px;
   z-index: 2;
   display: block;
-  width: 540px;
-  height: 680px;
-  object-fit: cover;
+  width: 524px; /* 540 * 0.97 — tips stay inside frame */
+  height: 660px; /* 680 * 0.97 */
+  object-fit: contain;
   object-position: center bottom;
 }
 
