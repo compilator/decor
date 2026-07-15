@@ -4,51 +4,46 @@
 
 <h1 align="center">Decor Frontend</h1>
 
-<p align="center">
-Frontend интернет-магазина растений, разработанный на <b>Angular 19</b>.
-</p>
+<div align="center">
+
+<img src="https://itlogia.ru/images/new-logo.svg" alt="ITlogia" width="220">
+
+# Модуль 13
+## Реализация интернет-магазина на Angular
+
+Учебный проект курса ITlogia.
+
+</div>
 
 ---
 
-## 🚀 Требования
+## Структура проекта
 
-Перед запуском убедитесь, что установлены:
+```text
+.
+├── backend/      # Backend курса (обязателен)
+├── frontend/     # Angular 19 приложение
+├── .gitignore
+└── README.md
+```
+
+---
+
+## Требования
 
 - Node.js 22+
-- npm
 - Angular CLI 19
+- Backend курса ITlogia
 
-Проверить версии можно командами:
-
-```bash
-node -v
-npm -v
-ng version
-```
+> ⚠️ Для полноценной работы проекта необходимо запустить backend курса.
 
 ---
 
-## ⚙️ Установка проекта
-
-Клонируйте репозиторий и установите зависимости:
+## Запуск Frontend
 
 ```bash
+cd frontend
 npm install
-```
-
----
-
-## ▶️ Запуск проекта
-
-Для локальной разработки выполните:
-
-```bash
-npm start
-```
-
-или
-
-```bash
 ng serve
 ```
 
@@ -58,103 +53,31 @@ ng serve
 http://localhost:4200
 ```
 
-Angular автоматически пересобирает проект после изменения файлов.
-
 ---
 
-## 🛠 Production-сборка
+## Запуск Backend
 
-Для сборки production-версии выполните:
-
-```bash
-npm run build
-```
-
-или
+Перейдите в папку backend и выполните инструкции из курса:
 
 ```bash
-ng build
-```
-
-После завершения сборки готовые файлы будут находиться в папке:
-
-```
-dist/
+cd backend
+npm install
+npm start
 ```
 
 ---
 
-## 🧩 Создание компонентов
-
-Angular CLI позволяет быстро создавать новые компоненты.
-
-Например:
-
-```bash
-ng generate component component-name
-```
-
-или сокращённо:
-
-```bash
-ng g c component-name
-```
-
-Полный список генераторов:
-
-```bash
-ng generate --help
-```
-
----
-
-## ✅ Запуск тестов
-
-Unit-тесты:
-
-```bash
-ng test
-```
-
----
-
-## 🔄 End-to-End тестирование
-
-Если в проекте подключено e2e-тестирование:
-
-```bash
-ng e2e
-```
-
-По умолчанию Angular не включает инструмент для e2e-тестирования, поэтому при необходимости можно использовать Cypress, Playwright или другое решение.
-
----
-
-## 📋 Полезные команды
-
-| Команда | Назначение |
-|---------|------------|
-| `npm install` | Установка зависимостей |
-| `npm start` | Запуск проекта |
-| `ng serve` | Запуск Angular Dev Server |
-| `npm run build` | Production-сборка |
-| `ng test` | Запуск unit-тестов |
-
----
-
-## 📚 Используемые технологии
+## Используемый стек
 
 - Angular 19
 - TypeScript
 - RxJS
 - SCSS
 - Angular Router
-- Angular Forms
+- HttpClient
 
 ---
 
-## 📖 Документация
+## Автор
 
-Официальная документация Angular:
-
-https://angular.dev/
+Разработано в рамках обучения в **ITlogia**.
